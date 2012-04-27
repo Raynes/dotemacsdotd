@@ -7,6 +7,15 @@
   (set-frame-height (selected-frame) 60)
   (set-frame-width (selected-frame) 130))
 
+(eval-when-compile (require 'cl))
+(defun toggle-transparency ()
+  (interactive)
+  (let ((param (cadr (frame-parameter nil 'alpha))))
+    (if (and param (/= param 100))
+        (set-frame-parameter nil 'alpha '(100 100))
+      (set-frame-parameter nil 'alpha '(85 50)))))
+(global-set-key (kbd "C-c t") 'toggle-transparency)
+
 ;; Set font
 (set-face-attribute 'default nil :family "Anonymous Pro" :height 130)
 
@@ -125,9 +134,8 @@
 ;; ERC
 (eval-after-load 'znc
   '(progn
-     (global-set-key (kbd "C-c z") 'znc-all)
-
      (require 'todochiku)
+     (global-set-key (kbd "C-c z") 'znc-all)
 
      (defun highlight-me (match-type nick message)
        (unless (posix-string-match "^\\** Users on #" message)
@@ -209,3 +217,4 @@
 ;; Theme
 (add-to-list 'custom-theme-load-path "/Users/anthony/.emacs.d/non-elpa/emacs-color-theme-solarized")
 (load-theme 'solarized-dark t)
+
