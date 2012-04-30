@@ -29,7 +29,7 @@
 ;; Packages
 (require 'package)
 (add-to-list 'package-archives '("marmalade" .
-                                 "http://marmalade-repo.org/packages/") 
+                                 "http://marmalade-repo.org/packages/")
              t)
 (package-initialize)
 
@@ -60,7 +60,7 @@
  ;; If there is more than one, they won't work right.
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "open")
- '(custom-safe-themes (quote ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" default)))
+ '(custom-safe-themes (quote ("6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" default)))
  '(erc-modules (quote (completion log spelling track hl-nicks netsplit button match track readonly networks ring autojoin noncommands irccontrols move-to-prompt stamp menu list)))
  '(erc-track-exclude-types (quote ("JOIN" "NICK" "PART" "QUIT" "MODE" "324" "329" "332" "333" "353" "477")))
  '(erc-track-showcount nil)
@@ -89,6 +89,10 @@
           (lambda () (paredit-mode t)))
 
 (ido-mode)
+
+;; Show some whitespace.
+(require 'whitespace)
+(setq whitespace-style '(trailing tabs))
 
 (setq mouse-drag-copy-region nil)
 
