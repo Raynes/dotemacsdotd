@@ -23,7 +23,7 @@
 (tool-bar-mode -1)
 
 ;; Load random stuff
-(add-to-list 'load-path "/Users/anthony/.emacs.d/non-elpa/")
+(add-to-list 'load-path "~/.emacs.d/non-elpa/")
 (require 'eieio)
 
 ;; Packages
@@ -48,9 +48,10 @@
     (insert-file-contents file-path)
     (buffer-string)))
 
-(let ((creds (read (get-string-from-file "~/.refheapcreds"))))
-  (setq refheap-token (cdr (assoc 'token creds))
-        refheap-user (cdr (assoc 'user creds))))
+(when (file-exists-p "~/.refheapcreds")
+  (let ((creds (read (get-string-from-file "~/.refheapcreds"))))
+    (setq refheap-token (cdr (assoc 'token creds))
+          refheap-user (cdr (assoc 'user creds)))))
 
 ;; Ugly generated stuff
 (custom-set-variables
@@ -219,6 +220,6 @@
 (evil-mode 1)
 
 ;; Theme
-(add-to-list 'custom-theme-load-path "/Users/anthony/.emacs.d/non-elpa/emacs-color-theme-solarized")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/non-elpa/emacs-color-theme-solarized")
 (load-theme 'solarized-dark t)
 
