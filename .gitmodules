@@ -1,0 +1,9 @@
+[submodule "non-elpa/evil"]
+	path = non-elpa/evil
+	url = git://gitorious.org/evil/evil.git
+[submodule "non-elpa/emacs-color-theme-solarized"]
+	path = non-elpa/emacs-color-theme-solarized
+	url = git://github.com/sellout/emacs-color-theme-solarized.git
+[submodule "non-elpa/markdown-mode"]
+	path = non-elpa/markdown-mode
+	url = http://jblevins.org/git/markdown-mode.git
