@@ -2,7 +2,8 @@
 (setq inhibit-splash-screen t)
 (setq frame-title-format "%b")
 (setq icon-title-format "%b")
-(when (window-system)
+(when window-system
+  (tool-bar-mode -1)
   (set-frame-position (selected-frame) 250 30)
   (set-frame-height (selected-frame) 60)
   (set-frame-width (selected-frame) 130))
@@ -18,9 +19,6 @@
 
 ;; Set font
 (set-face-attribute 'default nil :family "Anonymous Pro" :height 130)
-
-;; Get rid of the toolbar.
-(tool-bar-mode -1)
 
 ;; Load random stuff
 (add-to-list 'load-path "~/.emacs.d/non-elpa/")
@@ -203,7 +201,7 @@
 
 (eval-after-load 'js
   '(progn (define-key js-mode-map "{" 'paredit-open-curly)
-          (define -key js-mode-map "}" 'paredit-close-curly-and-newline)
+          (define-key js-mode-map "}" 'paredit-close-curly-and-newline)
           (add-hook 'js-mode-hook 'esk-paredit-nonlisp)
           (setq js-indent-level 2)
           ;; fixes problem with pretty function font-lock
@@ -223,3 +221,8 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/non-elpa/emacs-color-theme-solarized")
 (load-theme 'solarized-dark t)
 
+;; Sane undo and redo
+(global-undo-tree-mode)
+
+;; Line breaks while committing
+(add-hook 'magit-log-edit-mode 'auto-fill-mode)
