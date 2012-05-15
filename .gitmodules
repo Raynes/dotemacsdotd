@@ -7,3 +7,6 @@
 [submodule "non-elpa/markdown-mode"]
 	path = non-elpa/markdown-mode
 	url = http://jblevins.org/git/markdown-mode.git
+[submodule "non-elpa/js2-mode"]
+	path = non-elpa/js2-mode
+	url = https://github.com/mooz/js2-mode.git
