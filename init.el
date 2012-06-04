@@ -218,7 +218,7 @@
 (load-theme 'tomorrow-night t)
 
 ;;; Theme keybindings
-(global-set-key (kbd "C-c t") (lambda () (interactive) (load-theme 'tomorrow-night t)))
+(global-set-key (kbd "C-c n") (lambda () (interactive) (load-theme 'tomorrow-night t)))
 (global-set-key (kbd "C-c w") (lambda () (interactive) (load-theme 'tomorrow t)))
 
 ;; Sane undo and redo
