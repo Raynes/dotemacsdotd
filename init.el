@@ -18,7 +18,7 @@
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
 ;; Set font
-(set-face-attribute 'default nil :family "Anonymous Pro" :height 130)
+(set-face-attribute 'default nil :font "Anonymous Pro-13")
 
 ;; Load random stuff
 (add-to-list 'load-path "~/.emacs.d/non-elpa/")
@@ -59,6 +59,7 @@
  ;; If there is more than one, they won't work right.
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "open")
+ '(clojure-defun-indents (quote (lazy-loop cond-let GET POST PATCH PUT element catch-exception-string)))
  '(custom-safe-themes (quote ("935e766f12c5f320c360340c8d9bc1726be9f8eb01ddeab312895487e50e5835" "cfd71d55f448690641d6e8ca6438ab696bcaff3296905f95d91d4990166863d5" "ca2d69f5dd853dbf6fbcf5d0f1759ec357fda19c481915431015417ec9c1fbd8" "6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" default)))
  '(erc-modules (quote (completion log spelling track hl-nicks netsplit button match track readonly networks ring autojoin noncommands irccontrols move-to-prompt stamp menu list)))
  '(erc-track-exclude-types (quote ("JOIN" "NICK" "PART" "QUIT" "MODE" "324" "329" "332" "333" "353" "477")))
