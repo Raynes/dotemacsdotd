@@ -10,3 +10,9 @@
 [submodule "non-elpa/js2-mode"]
 	path = non-elpa/js2-mode
 	url = https://github.com/mooz/js2-mode.git
+[submodule "nrepl.el"]
+	path = nrepl.el
+	url = git://github.com/kingtim/nrepl.el.git
+[submodule "non-elpa/nrepl.el"]
+	path = non-elpa/nrepl.el
+	url = git://github.com/kingtim/nrepl.el.git

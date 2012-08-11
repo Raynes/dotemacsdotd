@@ -73,6 +73,7 @@
  '(ispell-program-name "/usr/local/bin/aspell")
  '(js2-basic-offset 2)
  '(mouse-autoselect-window t)
+ '(nrepl-lein-command "lein")
  '(org-startup-indented t)
  '(show-paren-mode t)
  '(tool-bar-mode nil)
@@ -122,10 +123,10 @@
                  (put-clojure-indent 'when-short 'defun)))))
 
 ;; Keybindings
-(global-set-key (kbd "C-c r") 'gist-region)
-(global-set-key (kbd "C-c b") 'gist-buffer)
+(global-set-key (kbd "C-c r") 'refheap-paste-region)
+(global-set-key (kbd "C-c b") 'refheap-paste-buffer)
 (global-set-key (kbd "C-c s") 'magit-status)
-(global-set-key (kbd "C-c j") 'clojure-jack-in)
+(global-set-key (kbd "C-c j") 'nrepl-jack-in)
 (global-set-key (kbd "<s-mouse-1>") 'flyspell-correct-word)
 (global-set-key (kbd "C-c f") 'finder)
 (global-set-key (kbd "C-c l") 'goto-line)
@@ -230,3 +231,6 @@
 
 ;; Highlight mustache files as html
 (add-to-list 'auto-mode-alist '("\\.mustache" . html-mode))
+
+(add-to-list 'load-path "~/.emacs.d/nrepl.el")
+(require 'nrepl)
