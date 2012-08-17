@@ -72,6 +72,7 @@
  '(ispell-local-dictionary nil)
  '(ispell-program-name "/usr/local/bin/aspell")
  '(js2-basic-offset 2)
+ '(js2-idle-timer-delay 5)
  '(mouse-autoselect-window t)
  '(nrepl-lein-command "lein")
  '(org-startup-indented t)
@@ -232,5 +233,7 @@
 ;; Highlight mustache files as html
 (add-to-list 'auto-mode-alist '("\\.mustache" . html-mode))
 
-(add-to-list 'load-path "~/.emacs.d/nrepl.el")
+(add-to-list 'load-path "~/.emacs.d/non-elpa/nrepl.el")
 (require 'nrepl)
+
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
