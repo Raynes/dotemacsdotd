@@ -5,7 +5,7 @@
 
 ;;;### (autoloads (refheap-paste-buffer-private refheap-paste-buffer
 ;;;;;;  refheap-paste-region-private refheap-paste-region) "refheap"
-;;;;;;  "refheap.el" (20390 57418))
+;;;;;;  "refheap.el" (20611 56215))
 ;;; Generated autoloads from refheap.el
 
 (autoload 'refheap-paste-region "refheap" "\
@@ -30,7 +30,7 @@
 
 ;;;***
 
-;;;### (autoloads nil nil ("refheap-pkg.el") (20390 57419 51734))
+;;;### (autoloads nil nil ("refheap-pkg.el") (20611 56215 265523))
 
 ;;;***
 
