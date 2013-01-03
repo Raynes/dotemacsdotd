@@ -9,7 +9,6 @@
   (set-frame-width (selected-frame) 130))
 
 (eval-when-compile (require 'cl))
-
 (defun toggle-transparency ()
   (interactive)
   (let ((param (cadr (frame-parameter nil 'alpha))))
@@ -68,6 +67,7 @@
  '(erc-track-switch-direction (quote newest))
  '(evil-default-cursor (quote (t)))
  '(fill-column 80)
+ '(fringe-mode (quote (4 . 4)) nil (fringe))
  '(indent-tabs-mode nil)
  '(ispell-dictionary nil)
  '(ispell-local-dictionary nil)
@@ -96,10 +96,8 @@
 
 (setq show-trailing-whitespace t)
 
-;; Stop dragging me down, man.
 (setq mouse-drag-copy-region nil)
 
-;; Default to ssh and stop asking me stupid questions.
 (setq tramp-default-method "ssh")
 
 ;; Add some extensions for markdown mode.
@@ -109,7 +107,7 @@
               auto-mode-alist))
 
 ;; Path fix for OS X.
-(setenv "PATH" (shell-command-to-string "bash -lc 'echo $PATH'"))
+(setenv "PATH" (shell-command-to-string "echo $PATH"))
 
 ;; Clojure mode
 (add-to-list 'auto-mode-alist '("\\.cljs" . clojure-mode))
@@ -136,6 +134,63 @@
 ;; Starting a server
 (server-start)
 
+;; Setting the swank command.
+(setq clojure-swank-command "lein jack-in %s")
+
+;; ERC
+(eval-after-load 'znc
+  '(progn
+     (require 'todochiku)
+     (global-set-key (kbd "C-c z") 'znc-all)
+
+     (defun highlight-me (match-type nick message)
+       (unless (posix-string-match "^\\** Users on #" message)
+         (todochiku-message
+          (concat "ERC: Highlight on " (buffer-name (current-buffer)))
+          (concat "<" (first (split-string nick "!")) "> " message)
+          "")))
+
+     (add-hook 'erc-text-matched-hook 'highlight-me)
+     (add-hook 'erc-text-matched-hook 'erc-beep-on-match)
+
+     (setq erc-track-exclude-types 
+           '("JOIN" "NICK" "PART" "QUIT" "MODE" "KICK"
+             "324" "329" "332" "333" "353" "477")
+           erc-track-switch-direction 'newest
+           erc-track-exclude-server-buffer t
+           erc-log-channels-directory "~/.erc/logs/"
+           znc-servers (read (get-string-from-file "~/.ercznc")))
+
+     (erc-spelling-mode 1)
+     (erc-log-mode 1)
+
+     (defun current-itunes-song ()
+       (do-applescript
+        "tell application \"iTunes\"
+       set artist_name to the artist of the current track
+       set song_title to the name of the current track
+       set song_album to the album of the current track
+       set song_length to the time of the current track
+       set played_count to the played count of the current track
+       return song_title & \" - \" & artist_name & \" [\" & song_album & \"] [length: \" & song_length & \"] [played: \" & played_count & \"]\"
+    end tell"))
+
+     (defun erc-cmd-NP ()
+       (erc-cmd-ME (concat "" (current-itunes-song))))
+
+     (defun PRIVMSG-notify (proc parsed)
+       (let ((nick (car (erc-parse-user (erc-response.sender parsed))))
+             (target (car (erc-response.command-args parsed)))
+             (msg (erc-response.contents parsed)))
+         (when (and (erc-current-nick-p target) 
+                    (not (erc-is-message-ctcp-and-not-action-p msg)))
+           (todochiku-message
+            (concat "ERC: Direct message from " nick)
+            msg
+            ""))))
+
+     (add-hook 'erc-server-PRIVMSG-functions 'PRIVMSG-notify)))
+
 ;; Stolen stuff from emacs starter kit
 
 (defun esk-paredit-nonlisp ()
@@ -155,13 +210,21 @@
 ;; Theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/non-elpa/emacs-color-theme-solarized")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/non-elpa/tomorrow-night")
+;(load-theme 'solarized-dark t)
 (load-theme 'tomorrow-night t)
+
+;;; Theme keybindings
+(global-set-key (kbd "C-c n") (lambda () (interactive) (load-theme 'tomorrow-night t)))
+(global-set-key (kbd "C-c w") (lambda () (interactive) (load-theme 'tomorrow t)))
 
 ;; Sane undo and redo
 (global-undo-tree-mode)
 
 ;; Line breaks while committing
 (add-hook 'magit-log-edit-mode 'auto-fill-mode)
+
+;; Highlight mustache files as html
+(add-to-list 'auto-mode-alist '("\\.mustache" . html-mode))
 
 (add-to-list 'load-path "~/.emacs.d/non-elpa/nrepl.el")
 (require 'nrepl)
@@ -173,4 +236,10 @@
 (load "~/.emacs.d/non-elpa/haskell-mode/haskell-site-file")
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
 (setq haskell-program-name "/usr/local/bin/ghci")
+
+;; Elixir
+(add-to-list 'load-path "~/.emacs.d/non-elpa/elixir-mode")
+(require 'elixir-mode)

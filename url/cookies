@@ -2,7 +2,10 @@
 ;; Automatically generated file!!! DO NOT EDIT!!!
 
 (setq url-cookie-storage
- 'nil)
+ '(("marmalade-repo.org"
+  [url-cookie "httpOnly" nil "Sun, 30 Dec 2012 10:02:31 GMT" "/" "marmalade-repo.org" nil]
+  [url-cookie "connect.sid" "jMPH1h4i0ltejqpBlJSf46VI.S%2B%2FAepEU%2B3O8Bozpc4PTKB4ulAJY32jHmgugb6xYiXo" "Sun, 30 Dec 2012 10:02:31 GMT" "/" "marmalade-repo.org" nil]))
+)
 (setq url-cookie-secure-storage
  '(("gist.github.com"
   [url-cookie "_gh_sess" "BAh7CDoPc2Vzc2lvbl9pZCIlMWM5NDNhZTgxMGE3OWNhMmVkZGUwNTQ0ZWRlY2UxOGQ6EGZpbmdlcnByaW50IiVjZDk3NzlkMzA5ZDJlYjg3ZjEyMzYzNmVkNWQ2ZWFjYjoJdXNlcmkCo9Q%3D--93d73a30578642b8a5a333ffea8eedbee4873f79" "01-Jan-2021 00:00:00.00 GMT" "/" "gist.github.com" t]
