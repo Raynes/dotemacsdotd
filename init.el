@@ -30,6 +30,8 @@
 (add-to-list 'package-archives '("marmalade" .
                                  "http://marmalade-repo.org/packages/")
              t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 ;; Linum
@@ -58,9 +60,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ac-delay 0.2)
+ '(ac-disable-inline nil)
  '(browse-url-browser-function (quote browse-url-generic))
  '(browse-url-generic-program "open")
- '(clojure-defun-indents (quote (lazy-loop cond-let GET POST PATCH PUT element catch-exception-string let-programs describe context before after around before-all after-all with)))
+ '(clojure-defun-indents (quote (lazy-loop cond-let GET POST PATCH PUT element catch-exception-string let-programs fact facts)))
  '(custom-safe-themes (quote ("32ff89088ee3518fc03954b09ecca3614fdc51aa5108dfb3b3cba68083b701f6" "344ff60900acf388116822a0540b34699fc575cf29a5c9764453d045cc42a476" "935e766f12c5f320c360340c8d9bc1726be9f8eb01ddeab312895487e50e5835" "cfd71d55f448690641d6e8ca6438ab696bcaff3296905f95d91d4990166863d5" "ca2d69f5dd853dbf6fbcf5d0f1759ec357fda19c481915431015417ec9c1fbd8" "6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" default)))
  '(erc-modules (quote (completion log spelling track hl-nicks netsplit button match track readonly networks ring autojoin noncommands irccontrols move-to-prompt stamp menu list)))
  '(erc-track-exclude-types (quote ("JOIN" "NICK" "PART" "QUIT" "MODE" "324" "329" "332" "333" "353" "477")))
@@ -108,21 +112,42 @@
                 ("\\.markdown" . markdown-mode))
               auto-mode-alist))
 
+;; Add some extensions for Scala mode.
+(setq auto-mode-alist
+      (append '(("\\.scala" . scala-mode))
+              auto-mode-alist))
+
 ;; Path fix for OS X.
 (setenv "PATH" (shell-command-to-string "bash -lc 'echo $PATH'"))
 
-;; Clojure mode
+;; Clojure mode and nrepl
 (add-to-list 'auto-mode-alist '("\\.cljs" . clojure-mode))
 (eval-after-load 'clojure-mode
   '(progn
      (setq clojure-mode-use-backtracking-indent t)
      (add-hook 'clojure-mode-hook
                (lambda ()
+                 (auto-complete-mode t)
                  (paredit-mode t)
                  (show-paren-mode t)
                  (put-clojure-indent 'fact 'defun)
                  (put-clojure-indent 'prepend 'defun)
                  (put-clojure-indent 'when-short 'defun)))))
+
+(require 'ac-nrepl)
+(add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
+(add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
+
+(defun set-auto-complete-as-completion-at-point-function ()
+  (setq completion-at-point-functions '(auto-complete)))
+(add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
+
+(add-hook 'nrepl-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'nrepl-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(define-key nrepl-interaction-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)
+
+(eval-after-load "auto-complete"
+                 '(add-to-list 'ac-modes 'nrepl-mode))
 
 ;; Keybindings
 (global-set-key (kbd "C-c r") 'refheap-paste-region)
@@ -133,8 +158,6 @@
 (global-set-key (kbd "C-c f") 'finder)
 (global-set-key (kbd "C-c l") 'goto-line)
 
-;; Starting a server
-(server-start)
 
 ;; Stolen stuff from emacs starter kit
 
@@ -151,6 +174,11 @@
 (add-to-list 'load-path "~/.emacs.d/non-elpa/evil")
 (require 'evil)
 (evil-mode 1)
+
+;; asciidoc
+(add-to-list 'load-path "~/.emacs.d/non-elpa/adoc-mode")
+(add-to-list 'load-path "~/.emacs.d/non-elpa/markup-faces")
+(require 'adoc-mode)
 
 ;; Theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/non-elpa/emacs-color-theme-solarized")
@@ -174,3 +202,30 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (setq haskell-program-name "/usr/local/bin/ghci")
+
+
+;; Starting a server
+(server-start)
+
+;; nrepl paredit stuff
+
+(defun nrepl-paredit-return ()
+  (interactive)
+  (if (eobp)
+      (nrepl-return)
+    (paredit-newline)))
+
+(define-minor-mode nrepl-paredit
+  "Keybindings for nrepl + paredit."
+  :keymap (let ((keymap (make-sparse-keymap)))
+            (define-key keymap (kbd "M-u") 'nrepl-previous-input)
+            (define-key keymap (kbd "M-e") 'nrepl-next-input)
+            (define-key keymap (kbd "<return>") 'nrepl-paredit-return)
+            keymap))
+
+(add-hook 'nrepl-mode-hook
+          (lambda ()
+            (set-syntax-table clojure-mode-syntax-table)
+            (setq lisp-indent-function 'clojure-indent-function)
+            (paredit-mode +1)
+            (nrepl-paredit)))

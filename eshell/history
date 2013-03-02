@@ -1,1 +1,22 @@
 rm token.html 
+cd ../../..
+lein test
+d ..
+cd ..
+cd useful/
+ls
+git reset --hard
+lein test :only useful.seq/update-first-test
+lein test :only flatland.useful.seq/update-first-test
+lein test :only flatland.useful.seq_test/update-first-test
+lein test :only flatland.useful.seq_test/test-update-first
+cd ../useful/
+ls
+lein test :only flatland.useful.seq-test/test-update-first
+lein test :only flatland.useful.seq-test/test-update-first
+lein test :only flatland.useful.seq-test
+cd ../leiningen1/
+cd ..
+cd leiningen
+ls
+lein test
