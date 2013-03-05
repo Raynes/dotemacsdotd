@@ -136,6 +136,7 @@
 
 (require 'ac-nrepl)
 (add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
+(add-hook 'nrepl-mode-hook (lambda () (auto-complete-mode t)))
 (add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
 
 (defun set-auto-complete-as-completion-at-point-function ()
