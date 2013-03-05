@@ -145,10 +145,18 @@
 
 (add-hook 'nrepl-mode-hook 'set-auto-complete-as-completion-at-point-function)
 (add-hook 'nrepl-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
-(define-key nrepl-interaction-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)
-
 (eval-after-load "auto-complete"
                  '(add-to-list 'ac-modes 'nrepl-mode))
+(define-key nrepl-interaction-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode
+    `(("(\\(fn\\>\\)"
+       (0 (progn (compose-region (match-beginning 1)
+                                 (match-end 1)
+                                 ,(make-char 'greek-iso8859-7 107))
+                 nil))))))
 
 ;; Keybindings
 (global-set-key (kbd "C-c r") 'refheap-paste-region)
@@ -230,3 +238,4 @@
             (setq lisp-indent-function 'clojure-indent-function)
             (paredit-mode +1)
             (nrepl-paredit)))
+
