@@ -2,14 +2,11 @@
 ;; Automatically generated file!!! DO NOT EDIT!!!
 
 (setq url-cookie-storage
- '(("marmalade-repo.org"
-  [url-cookie "connect.sid" "z324Jin8IPvLXK6efriWBGyE.J%2F5qst7pp5bSlZ3fUZf92cHj422JMEQPFLTfc8i64xY" "Fri, 22 Feb 2013 13:12:08 GMT" "/" "marmalade-repo.org" nil]
-  [url-cookie "httpOnly" nil "Fri, 22 Feb 2013 13:12:08 GMT" "/" "marmalade-repo.org" nil]))
-)
+ 'nil)
 (setq url-cookie-secure-storage
  '(("gist.github.com"
-  [url-cookie "HttpOnly" nil "01-Jan-2021 00:00:00.00 GMT" "/" "gist.github.com" t]
-  [url-cookie "_gh_sess" "BAh7CDoPc2Vzc2lvbl9pZCIlMWM5NDNhZTgxMGE3OWNhMmVkZGUwNTQ0ZWRlY2UxOGQ6EGZpbmdlcnByaW50IiVjZDk3NzlkMzA5ZDJlYjg3ZjEyMzYzNmVkNWQ2ZWFjYjoJdXNlcmkCo9Q%3D--93d73a30578642b8a5a333ffea8eedbee4873f79" "01-Jan-2021 00:00:00.00 GMT" "/" "gist.github.com" t]))
+  [url-cookie "_gh_sess" "BAh7CDoPc2Vzc2lvbl9pZCIlMWM5NDNhZTgxMGE3OWNhMmVkZGUwNTQ0ZWRlY2UxOGQ6EGZpbmdlcnByaW50IiVjZDk3NzlkMzA5ZDJlYjg3ZjEyMzYzNmVkNWQ2ZWFjYjoJdXNlcmkCo9Q%3D--93d73a30578642b8a5a333ffea8eedbee4873f79" "01-Jan-2021 00:00:00.00 GMT" "/" "gist.github.com" t]
+  [url-cookie "HttpOnly" nil "01-Jan-2021 00:00:00.00 GMT" "/" "gist.github.com" t]))
 )
 
 ;; Local Variables:

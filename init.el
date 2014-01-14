@@ -18,6 +18,9 @@
       (set-frame-parameter nil 'alpha '(85 50)))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
 
+;; Turn on autoindent, I guess
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
 ;; Set font
 (set-face-attribute 'default nil :font "Source Code Pro-13")
 
@@ -78,7 +81,6 @@
  '(ispell-program-name "/usr/local/bin/aspell")
  '(js-indent-level 2)
  '(mouse-autoselect-window t)
- '(nrepl-lein-command "lein")
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(tramp-auto-save-directory "~/.trampauto")
@@ -118,36 +120,26 @@
               auto-mode-alist))
 
 ;; Path fix for OS X.
-(setenv "PATH" (shell-command-to-string "bash -lc 'echo $PATH'"))
+;; (if (not (getenv "TERM_PROGRAM"))
+;;       (let ((path (shell-command-to-string
+;;               "$SHELL -cl \"printf %s \\\"\\\$PATH\\\"\"")))
+;;         (setenv "PATH" path)))
 
-;; Clojure mode and nrepl
+;; (add-to-list 'exec-path "~/.cabal/bin") ;; because fuck
+;; (add-to-list 'exec-path "~/")
+
+;; Clojure mode and cider
 (add-to-list 'auto-mode-alist '("\\.cljs" . clojure-mode))
 (eval-after-load 'clojure-mode
   '(progn
      (setq clojure-mode-use-backtracking-indent t)
      (add-hook 'clojure-mode-hook
                (lambda ()
-                 (auto-complete-mode t)
                  (paredit-mode t)
                  (show-paren-mode t)
                  (put-clojure-indent 'fact 'defun)
                  (put-clojure-indent 'prepend 'defun)
                  (put-clojure-indent 'when-short 'defun)))))
-
-(require 'ac-nrepl)
-(add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
-(add-hook 'nrepl-mode-hook (lambda () (auto-complete-mode t)))
-(add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
-
-(defun set-auto-complete-as-completion-at-point-function ()
-  (setq completion-at-point-functions '(auto-complete)))
-(add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
-
-(add-hook 'nrepl-mode-hook 'set-auto-complete-as-completion-at-point-function)
-(add-hook 'nrepl-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
-(eval-after-load "auto-complete"
-                 '(add-to-list 'ac-modes 'nrepl-mode))
-(define-key nrepl-interaction-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)
 
 (eval-after-load 'clojure-mode
   '(font-lock-add-keywords
@@ -162,7 +154,6 @@
 (global-set-key (kbd "C-c r") 'refheap-paste-region)
 (global-set-key (kbd "C-c b") 'refheap-paste-buffer)
 (global-set-key (kbd "C-c s") 'magit-status)
-(global-set-key (kbd "C-c j") 'nrepl-jack-in)
 (global-set-key (kbd "<s-mouse-1>") 'flyspell-correct-word)
 (global-set-key (kbd "C-c f") 'finder)
 (global-set-key (kbd "C-c l") 'goto-line)
@@ -200,42 +191,41 @@
 ;; Line breaks while committing
 (add-hook 'magit-log-edit-mode 'auto-fill-mode)
 
-(add-to-list 'load-path "~/.emacs.d/non-elpa/nrepl.el")
-(require 'nrepl)
+(add-to-list 'load-path "~/.emacs.d/non-elpa/cider")
+(require 'cider)
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; Haskell
 
-(load "~/.emacs.d/non-elpa/haskell-mode/haskell-site-file")
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-(setq haskell-program-name "/usr/local/bin/ghci")
-
 
 ;; Starting a server
 (server-start)
 
-;; nrepl paredit stuff
-
-(defun nrepl-paredit-return ()
-  (interactive)
-  (if (eobp)
-      (nrepl-return)
-    (paredit-newline)))
-
-(define-minor-mode nrepl-paredit
-  "Keybindings for nrepl + paredit."
-  :keymap (let ((keymap (make-sparse-keymap)))
-            (define-key keymap (kbd "M-u") 'nrepl-previous-input)
-            (define-key keymap (kbd "M-e") 'nrepl-next-input)
-            (define-key keymap (kbd "<return>") 'nrepl-paredit-return)
-            keymap))
-
-(add-hook 'nrepl-mode-hook
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook
           (lambda ()
             (set-syntax-table clojure-mode-syntax-table)
-            (setq lisp-indent-function 'clojure-indent-function)
-            (paredit-mode +1)
-            (nrepl-paredit)))
+            (setq lisp-indent-function 'clojure-indent-function)))
+(setq cider-repl-popup-stacktraces t)
+(setq cider-repl-print-length 100)
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
 
+;; Go
+
+(eval-after-load "go-mode"
+  '(progn
+     (require 'flymake-go)
+     (add-hook 'before-save-hook #'gofmt-before-save)))
+
+
+;; Because fuck
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
+;; Javascript
+
+(setq js-indent-level 4)
