@@ -229,3 +229,9 @@
 ;; Javascript
 
 (setq js-indent-level 4)
+
+;; Show column info in modeline
+
+(setq column-number-mode t)
+
+(elpy-enable)
