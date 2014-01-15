@@ -8,6 +8,8 @@
   (set-frame-height (selected-frame) 60)
   (set-frame-width (selected-frame) 130))
 
+(setq show-trailing-whitespace t)
+
 (eval-when-compile (require 'cl))
 
 (defun toggle-transparency ()
