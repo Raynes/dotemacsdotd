@@ -184,7 +184,6 @@
 (require 'adoc-mode)
 
 ;; Theme
-(add-to-list 'custom-theme-load-path "~/.emacs.d/non-elpa/emacs-color-theme-solarized")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/non-elpa/tomorrow-night")
 (load-theme 'tomorrow-night t)
 
