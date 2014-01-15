@@ -44,7 +44,8 @@
 (global-linum-mode)
 
 ;; Backups
-(setq backup-directory-alist `(("." . "~/.saves")))
+(setq backup-directory-alist `((".*" . "~/.saves")))
+(setq auto-save-file-name-transforms `((".*", "~/.autosaves")))
 
 ;; Refheap
 
