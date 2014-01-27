@@ -253,3 +253,8 @@
     (shell-command-on-region (mark) (point) "python -m json.tool" (buffer-name) t)))
 
 (global-set-key "\C-C\C-b" 'json-format)
+
+;; Efficiently switch between windows
+
+(windmove-default-keybindings)
+(setq windmove-wrap-around t)
