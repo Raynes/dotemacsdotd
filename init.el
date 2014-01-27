@@ -234,4 +234,13 @@
 
 (setq column-number-mode t)
 
+;; Python
+
+;;; I'm terribly annoyed this isn't in virtualenv.el
+(defun set-the-fucking-virtualenv-directory (root)
+  (interactive (list (read-directory-name "Project root:")))
+  (setq virtualenv-root root))
+
+(global-set-key (kbd "C-c C-s") 'set-the-fucking-virtualenv-directory)
+
 (elpy-enable)
