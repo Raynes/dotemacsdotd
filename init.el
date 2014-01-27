@@ -244,3 +244,12 @@
 (global-set-key (kbd "C-c C-s") 'set-the-fucking-virtualenv-directory)
 
 (elpy-enable)
+
+;; json pretty printing
+
+(defun json-format ()
+  (interactive)
+  (save-excursion
+    (shell-command-on-region (mark) (point) "python -m json.tool" (buffer-name) t)))
+
+(global-set-key "\C-C\C-b" 'json-format)
