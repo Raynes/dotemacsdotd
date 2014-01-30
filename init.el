@@ -84,6 +84,7 @@
  '(tool-bar-mode nil)
  '(tramp-auto-save-directory "~/.trampauto")
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ '(virtualenv-root "~/code/scopely/faceport/")
  '(x-select-enable-clipboard t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -242,7 +243,7 @@
   (setq virtualenv-root root))
 
 (global-set-key (kbd "C-c C-s") 'set-the-fucking-virtualenv-directory)
-
+(elpy-use-ipython)
 (elpy-enable)
 
 ;; json pretty printing
