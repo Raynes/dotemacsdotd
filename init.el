@@ -175,6 +175,9 @@
 (require 'evil)
 (evil-mode 1)
 
+(evil-ex-define-cmd "comment" #'comment-region)
+(evil-ex-define-cmd "uncomment" #'uncomment-region)
+
 ;; asciidoc
 (add-to-list 'load-path "~/.emacs.d/non-elpa/adoc-mode")
 (add-to-list 'load-path "~/.emacs.d/non-elpa/markup-faces")
@@ -243,8 +246,8 @@
   (setq virtualenv-root root))
 
 (global-set-key (kbd "C-c C-s") 'set-the-fucking-virtualenv-directory)
-(elpy-use-ipython)
 (elpy-enable)
+(elpy-use-ipython)
 
 ;; json pretty printing
 
