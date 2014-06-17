@@ -262,3 +262,7 @@
 
 (windmove-default-keybindings)
 (setq windmove-wrap-around t)
+
+
+;; Fuck scroll bars
+(scroll-bar-mode -1)
